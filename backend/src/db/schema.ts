@@ -1,5 +1,5 @@
 import { pgTable, text, integer, timestamp, uuid, boolean, jsonb} from "drizzle-orm/pg-core";
-import { relations} from "drizzle-orm";
+import { or, relations} from "drizzle-orm";
 
 export type OrderStatus = "pending" | "paid" | "failed";
 export type UserRole = "customer" | "support" | "admin";
@@ -72,3 +72,25 @@ export const orderItems = pgTable("order_items", {
 });
 
 // cascade = “delete children when parent is deleted”; restrict = “don’t delete the parent if any child still points at it.”
+
+// A user can have many orders over time
+export const usersRelations = relations(users, ({many}) => ({
+    orders: many(orders),
+}));
+
+// The same product can show up on many order lines
+export const productsRelations = relations(products, ({many}) => ({
+    orderItems: many(orderItems),
+}));
+
+// Each order belongs to exactly one user; each order can have many line items.
+export const ordersRelations = relations(orders, ({one, many}) => ({
+    user: one(users, {fields: [orders.userId], references: [users.id]}),
+    items: many(orderItems),
+}));
+
+// Each line item is for exactly one order and one product
+export const orderiemsRelations = relations(orderItems, ({one}) => ({
+    order: one(orders, {fields: [orderItems.orderId], references: [orders.id]}),
+    product: one(products, {fields: [orderItems.productId], references: [products.id]}),
+}));
