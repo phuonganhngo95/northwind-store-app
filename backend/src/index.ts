@@ -10,6 +10,9 @@ import { clerkWebhookHandler } from "./webhooks/clerk";
 import { getEnv } from "./lib/env";
 import keepAliveCron from "./lib/cron";
 
+import productRouter from "./routes/productRouter";
+import meRouter from "./routes/meRouter";
+
 const env = getEnv()
 const app = express();
 const rawJson = express.raw({
@@ -30,6 +33,9 @@ app.get("/health", (_req, res) => {
     res.json( {ok: true});
 });
 
+app.use("api/me", meRouter)
+app.use("api/products", productRouter)
+
 const publicDir = path.join(process.cwd(), "public");
 if (fs.existsSync(publicDir)) {
     app.use(express.static(publicDir));
@@ -48,6 +54,8 @@ if (fs.existsSync(publicDir)) {
         res.sendFile(path.join(publicDir, "index.html"), (err) => next(err));
     });
 }
+
+// Todo: add error handler middleware
 
 app.listen(env.PORT, () => {
     console.log("Listening on port: ", env.PORT)
