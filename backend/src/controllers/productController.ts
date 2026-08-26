@@ -2,7 +2,6 @@ import type { Request, Response, NextFunction } from "express";
 import { db } from "../db";
 import { products } from "../db/schema";
 import { and, desc, eq } from "drizzle-orm";
-import { error } from "console";
 
 export async function listProducts(req: Request, res: Response, next: NextFunction) {
     try {
