@@ -13,6 +13,7 @@ import keepAliveCron from "./lib/cron";
 import productRouter from "./routes/productRouter";
 import meRouter from "./routes/meRouter";
 import streamRouter from "./routes/streamRouter";
+import checkoutRouter from "./routes/checkoutRouter";
 
 const env = getEnv()
 const app = express();
@@ -26,6 +27,10 @@ app.post("/webhooks/clerk", rawJson, (req, res) => {
     void clerkWebhookHandler(req, res);
 });
 
+app.post("/webhooks/polar", rawJson, (req, res) => {
+    void polarWebhookHandler(req, res);
+});
+
 app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware());
@@ -37,6 +42,7 @@ app.get("/health", (_req, res) => {
 app.use("api/me", meRouter);
 app.use("api/products", productRouter);
 app.use("api/stream", streamRouter);
+app.use("api/checkout", checkoutRouter);
 
 const publicDir = path.join(process.cwd(), "public");
 if (fs.existsSync(publicDir)) {
