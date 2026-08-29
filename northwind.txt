@@ -7,3 +7,5 @@ create token polar sandbox: polar_oat_nsmKev8jTTeserJtuSDMDuw3lrQj49ojgCGA93a6QA
 polar webhooks secret: whsec_32aacV9cPpodTrGVNEOphfGC7PmSfy4jKrPNX38Pr26
 
 polar checkout product_id: b9314e24-04a3-45fa-8a31-d49894a2d921
+
+2:32:33

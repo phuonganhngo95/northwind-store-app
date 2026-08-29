@@ -27,16 +27,16 @@ app.post("/webhooks/clerk", rawJson, (req, res) => {
     void clerkWebhookHandler(req, res);
 });
 
-app.post("/webhooks/polar", rawJson, (req, res) => {
-    void polarWebhookHandler(req, res);
-});
+// app.post("/webhooks/polar", rawJson, (req, res) => {
+//     void polarWebhookHandler(req, res);
+// });
 
 app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware());
 
 app.get("/health", (_req, res) => {
-    res.json( {ok: true});
+    res.json({ ok: true });
 });
 
 app.use("api/me", meRouter);
