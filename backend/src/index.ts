@@ -47,12 +47,12 @@ app.get("/health", (_req, res) => {
     res.json({ ok: true });
 });
 
-app.use("api/me", meRouter);
-app.use("api/products", productRouter);
-app.use("api/stream", streamRouter);
-app.use("api/checkout", checkoutRouter);
-app.use("api/admin", adminRouter);
-app.use("api/orders", orderRouter);
+app.use("/api/me", meRouter);
+app.use("/api/products", productRouter);
+app.use("/api/stream", streamRouter);
+app.use("/api/checkout", checkoutRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/orders", orderRouter);
 
 const publicDir = path.join(process.cwd(), "public");
 if (fs.existsSync(publicDir)) {
