@@ -16,7 +16,7 @@ export default function useCartPage() {
     const {
         data,
         isLoading: productsLoading,
-        isError: productsError
+        isError: productsError,
     } = useQuery({
         queryKey: ["products"],
         queryFn: () => apiFetch("/api/products"),
@@ -38,10 +38,33 @@ export default function useCartPage() {
     async function checkout() {
         setCheckoutLoading(true);
 
+        const body = {
+            items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
+        };
+
         const res = await apiFetch("/api/checkout", {
             getToken,
             method: "POST",
             body,
         });
+
+        if (res?.checkoutUrl) {
+            window.location.href = res.checkoutUrl;
+            return;
+        }
+
+        setCheckoutLoading(false);
     }
+
+    return {
+        items,
+        setQty,
+        removeItem,
+        productsLoading,
+        productsError,
+        lines,
+        subtotal,
+        checkout,
+        checkoutLoading,
+    };
 }

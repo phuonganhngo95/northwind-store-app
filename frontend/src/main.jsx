@@ -37,9 +37,11 @@ Sentry.init({
   enableLogs: true,
 });
 
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider>
+    <ClerkProvider publishableKey={clerkPubKey}>
       <SentryUserSync />
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
